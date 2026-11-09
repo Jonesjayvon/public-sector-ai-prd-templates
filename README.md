@@ -42,10 +42,8 @@ Government agencies require an enterprise-grade LLM conversational platform that
 ---
 
 
-```markdown
-### 3. High-Level Product Architecture & Boundary Requirements
+## 3. High-Level Product Architecture & Boundary Requirements
 
-```text
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                           CLASSIFIED ENCLAVE BOUNDARY (AIR-GAPPED)                              │
 │                                                                                                 │
@@ -61,7 +59,7 @@ Government agencies require an enterprise-grade LLM conversational platform that
 │                                │   • Deterministic Seed Tracking & Audit Logging  │             │
 │                                └──────────────────────────────────────────────────┘             │
 └─────────────────────────────────────────────────────────────────────────────────────────────────┘
-    style Engine fill:#fff3e0,stroke:#e65100,stroke-width:1.5px
+
 
 
 ---
