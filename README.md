@@ -42,3 +42,52 @@ Government agencies require an enterprise-grade LLM conversational platform that
 ---
 
 ## 3. High-Level Product Architecture & Boundary Requirements
++---------------------------------------------------------------------------------------------------+
+|                                 CLASSIFIED ENCLAVE BOUNDARY (AIR-GAPPED)                           |
++---------------------------------------------------------------------------------------------------+
+|  +--------------------+        +-----------------------+        +------------------------------+  |
+|  |   User Workspace   | -----> |  API Gateway & Auth   | -----> | RAG & Vector Store           |  |
+|  |   (CAC/PIV Login)  |        |  (RBAC & PII Scrubber)|        | (Scoped Document Index)      |  |
+|  +--------------------+        +-----------------------+        +------------------------------+  |
+|                                            |                                   |                  |
+|                                            v                                   v                  |
+|                                +---------------------------------------------------+              |
+|                                |   Air-Gapped LLM Inference Engine                 |              |
+|                                |   - Zero-Data Retention (ZDR)                     |              |
+|                                |   - Deterministic Seed Tracking & Audit Logging   |              |
+|                                +---------------------------------------------------+              |
++---------------------------------------------------------------------------------------------------+
+
+
+---
+
+## 4. Functional & Technical Requirements
+
+### 4.1 Core Functional Requirements (FR)
+* **FR-1: Zero-Data Retention (ZDR) Enforcement:** The underlying model inference container must process prompts completely in-memory. No user prompt, system prompt, or model completion may be cached, logged to disk by the model container, or utilized for model weight fine-tuning.
+* **FR-2: Role-Based Retrieval-Augmented Generation (RAG):** Document search must respect user clearance and access levels. The vector store index must check user security tokens against document metadata markings before presenting context to the model.
+* **FR-3: Citation & Groundedness Verification:** Every model assertion or summary must include inline citations linked directly to source documents with page-level granularity to mitigate hallucination risks.
+
+### 4.2 Non-Functional & Reliability Requirements (NFR)
+* **NFR-1: Air-Gap Operational Capability:** 100% of product features, tokenizers, and vector embeddings must execute without outbound internet requests or external API calls.
+* **NFR-2: System Availability & Performance (SLA/SLO):**
+  * Target System Availability: 99.9% uptime within the target enclave.
+  * Time-to-First-Token (TTFT): < 1.2 seconds for prompts under 2,000 tokens.
+* **NFR-3: Audit Telemetry:** Full API call logging (user ID, timestamp, document IDs accessed, token count, and model response latency) streamed directly to the agency's SIEM solution (e.g., Splunk / Elastic).
+
+---
+
+## 5. Security & Compliance Guardrails
+
+* **Access Control (AC):** Single Sign-On (SSO) integration via DoD PKI / CAC card authentication using OAuth2 / SAML v2.
+* **Input Sanitization:** Automated pre-inference filtering layer to intercept indirect prompt injection attempts embedded in uploaded files.
+* **Media Protection (MP):** Immediate memory purge of user session context buffers upon user logoff or 15 minutes of inactivity.
+
+---
+
+## 💡 About the Author
+
+**Jayvon Marcel Jones**  
+*TS/SCI-cleared Technical Product Leader & U.S. Navy Chief Warrant Officer*  
+- **Focus:** Federal AI Platform Product Management, High-Assurance Security, DoD/FedRAMP Compliance, Zero-Trust Architecture.
+- **Experience:** U.S. Navy IT Operations Lead, AWS/Azure Enterprise Cloud Engineering, Federal Consulting.
