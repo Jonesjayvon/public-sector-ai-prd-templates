@@ -42,7 +42,6 @@ Government agencies require an enterprise-grade LLM conversational platform that
 ---
 
 
-
 ### 3. High-Level Product Architecture & Boundary Requirements
 
 ```mermaid
@@ -73,7 +72,6 @@ flowchart TD
     style Ingestion fill:#e3f2fd,stroke:#1565c0,stroke-width:1px
     style Context fill:#e8f5e9,stroke:#2e7d32,stroke-width:1px
     style Engine fill:#fff3e0,stroke:#e65100,stroke-width:1.5px
-
 
 
 ---
