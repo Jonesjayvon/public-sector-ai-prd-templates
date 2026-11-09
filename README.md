@@ -41,35 +41,26 @@ Government agencies require an enterprise-grade LLM conversational platform that
 
 ---
 
+
+```markdown
 ### 3. High-Level Product Architecture & Boundary Requirements
 
-```mermaid
-flowchart TD
-    subgraph Boundary["🔒 CLASSIFIED ENCLAVE BOUNDARY (AIR-GAPPED)"]
-        direction TB
-        
-        subgraph Ingestion["User & Security Layer"]
-            A["👤 User Workspace<br/><i>(CAC/PIV PKI Login)</i>"]
-            B["🛡️ API Gateway & Auth<br/><i>(RBAC & PII Scrubber)</i>"]
-        end
-        
-        subgraph Context["Data Layer"]
-            C["📚 RAG & Vector Store<br/><i>(Scoped Document Index)</i>"]
-        end
-        
-        subgraph Engine["Inference Core"]
-            D["⚡ Air-Gapped LLM Inference Engine<br/>• Zero-Data Retention (ZDR)<br/>• Deterministic Seed Tracking & Audit Logging"]
-        end
-        
-        A -->|Encrypted Session| B
-        B -->|Authorized Query| C
-        B -->|Sanitized Input| D
-        C -->|Context Injection| D
-    end
-
-    style Boundary fill:#f8f9fa,stroke:#333,stroke-width:2px,color:#000
-    style Ingestion fill:#e3f2fd,stroke:#1565c0,stroke-width:1px
-    style Context fill:#e8f5e9,stroke:#2e7d32,stroke-width:1px
+```text
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                           CLASSIFIED ENCLAVE BOUNDARY (AIR-GAPPED)                              │
+│                                                                                                 │
+│   ┌────────────────────┐         ┌────────────────────────┐         ┌───────────────────────┐   │
+│   │   User Workspace   │ ──────> │   API Gateway & Auth   │ ──────> │  RAG & Vector Store   │   │
+│   │  (CAC/PIV Login)   │         │ (RBAC & PII Scrubber)  │         │(Scoped Doc Index)     │   │
+│   └────────────────────┘         └────────────────────────┘         └───────────────────────┘   │
+│                                              │                                  │               │
+│                                              ▼                                  ▼               │
+│                                ┌──────────────────────────────────────────────────┐             │
+│                                │         Air-Gapped LLM Inference Engine          │             │
+│                                │   • Zero-Data Retention (ZDR)                    │             │
+│                                │   • Deterministic Seed Tracking & Audit Logging  │             │
+│                                └──────────────────────────────────────────────────┘             │
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
     style Engine fill:#fff3e0,stroke:#e65100,stroke-width:1.5px
 
 
